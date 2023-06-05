@@ -14,7 +14,7 @@ class Header extends React.Component {
     this.setState(() => ({
       searchQuery: event.target.value,
     }));
-    this.props.searchNote && this.props.searchNote(event);
+    this.props.searchNote(event);
   }
   render() {
     return (

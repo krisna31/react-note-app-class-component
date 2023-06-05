@@ -8,23 +8,25 @@ class NotesApp extends React.Component {
     super(props);
     this.state = {
       notes: getInitialData(),
+      searchNotes: [],
+      searchQuery: "",
     };
 
-    this.onAddContactHandler = this.onAddContactHandler.bind(this);
+    this.onAddNotetHandler = this.onAddNotetHandler.bind(this);
     this.onSearchEventHandler = this.onSearchEventHandler.bind(this);
   }
 
   onSearchEventHandler(event) {
     const searchQuery = event.target.value;
-    const notes = getInitialData();
-    const filteredNotes = notes.filter((note) => note.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredNotes = this.state.notes.filter((note) => note.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
     this.setState(() => ({
-      notes: filteredNotes,
+      searchNotes: filteredNotes,
+      searchQuery,
     }));
   }
 
-  onAddContactHandler({ title, body }) {
+  onAddNotetHandler({ title, body }) {
     this.setState((prevState) => {
       return {
         notes: [
@@ -42,16 +44,17 @@ class NotesApp extends React.Component {
   }
 
   render() {
+    const notes = this.state.searchQuery != "" ? this.state.searchNotes : this.state.notes;
     return (
       <>
         <Header searchNote={this.onSearchEventHandler} />
         <main>
           <div className="note-app__body">
-            <NoteCreate notes={this.state.notes} addNote={this.onAddContactHandler} />
+            <NoteCreate notes={this.state.notes} addNote={this.onAddNotetHandler} />
             <h2>Catatan Aktif</h2>
-            {this.state.notes.length > 0 ? (
+            {notes.length > 0 ? (
               <div className="notes-list">
-                {this.state.notes.map(
+                {notes.map(
                   (note) =>
                     !note.archived && (
                       <div className="note-item" key={note.id}>
@@ -72,9 +75,9 @@ class NotesApp extends React.Component {
               <p className="notes-list__empty-message">Tidak ada catatan</p>
             )}
             <h2>Arsip</h2>
-            {this.state.notes.length > 0 ? (
+            {notes.length > 0 ? (
               <div className="notes-list">
-                {this.state.notes.map(
+                {notes.map(
                   (note) =>
                     note.archived && (
                       <div className="note-item" key={note.id}>
