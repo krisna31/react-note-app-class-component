@@ -14,6 +14,7 @@ class NotesApp extends React.Component {
 
     this.onAddNotetHandler = this.onAddNotetHandler.bind(this);
     this.onSearchEventHandler = this.onSearchEventHandler.bind(this);
+    this.onDeleteHandler = this.onDeleteHandler.bind(this);
   }
 
   onSearchEventHandler(event) {
@@ -23,6 +24,12 @@ class NotesApp extends React.Component {
     this.setState(() => ({
       searchNotes: filteredNotes,
       searchQuery,
+    }));
+  }
+
+  onDeleteHandler(id) {
+    this.setState((prevState) => ({
+      notes: prevState.notes.filter((note) => note.id !== id),
     }));
   }
 
@@ -64,7 +71,9 @@ class NotesApp extends React.Component {
                           <p className="note-item__body">{note.body}</p>
                         </div>
                         <div className="note-item__action">
-                          <button className="note-item__delete-button">Delete</button>
+                          <button className="note-item__delete-button" id={note.id} onClick={() => this.onDeleteHandler(note.id)}>
+                            Delete
+                          </button>
                           <button className="note-item__archive-button">Arsipkan</button>
                         </div>
                       </div>
@@ -87,7 +96,9 @@ class NotesApp extends React.Component {
                           <p className="note-item__body">{note.body}</p>
                         </div>
                         <div className="note-item__action">
-                          <button className="note-item__delete-button">Delete</button>
+                          <button className="note-item__delete-button" id={note.id} onClick={() => this.onDeleteHandler(note.id)}>
+                            Delete
+                          </button>
                           <button className="note-item__archive-button">Arsipkan</button>
                         </div>
                       </div>
