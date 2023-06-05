@@ -22,14 +22,20 @@ class NotesApp extends React.Component {
   onToggleArchiveHandler(id) {
     this.setState((prevState) => ({
       notes: prevState.notes.map((note) => {
-        if (note.id === id) {
-          return {
-            ...note,
-            archived: !note.archived,
-          };
-        } else {
-          return note;
-        }
+        return note.id === id
+          ? {
+              ...note,
+              archived: !note.archived,
+            }
+          : note;
+      }),
+      searchNotes: prevState.searchNotes.map((note) => {
+        return note.id === id
+          ? {
+              ...note,
+              archived: !note.archived,
+            }
+          : note;
       }),
     }));
   }
@@ -47,6 +53,7 @@ class NotesApp extends React.Component {
   onDeleteHandler(id) {
     this.setState((prevState) => ({
       notes: prevState.notes.filter((note) => note.id !== id),
+      searchNotes: prevState.searchNotes.filter((note) => note.id !== id),
     }));
   }
 
