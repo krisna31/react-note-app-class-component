@@ -17,8 +17,8 @@ class NoteCreate extends React.Component {
 
   onTitleChangeEventHandler(event) {
     this.setState((prevState) => ({
-      char_limit: 50 - event.target.value.length,
-      title: event.target.value.length < 50 ? event.target.value : prevState.title,
+      char_limit: event.target.value.length > 50 ? 0 : 50 - event.target.value.length,
+      title: event.target.value.slice(0, 50),
     }));
   }
 
