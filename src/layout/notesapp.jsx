@@ -1,75 +1,88 @@
 import React from "react";
 import { getInitialData, showFormattedDate } from "../utils/index";
+import NoteCreate from "./notecreate";
+import Header from "./header";
 
 class NotesApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: [],
+      notes: getInitialData(),
       searchQuery: "",
     };
 
-    this.notes = getInitialData();
+    this.onAddContactHandler = this.onAddContactHandler.bind(this);
   }
+
+  onAddContactHandler({ title, body }) {
+    this.setState((prevState) => {
+      return {
+        notes: [
+          ...prevState.notes,
+          {
+            id: +new Date(),
+            title,
+            body,
+            createdAt: new Date(),
+            archived: false,
+          },
+        ],
+      };
+    });
+  }
+
   render() {
     return (
       <>
+        <Header searchQuery={this.state.searchQuery} />
         <main>
-          <div class="note-app__body">
-            <div class="note-input">
-              <h2>Buat catatan</h2>
-              <form>
-                <p class="note-input__title__char-limit">Sisa karakter: 50</p>
-                <input class="note-input__title" type="text" placeholder="Ini adalah judul ..." required="" value="" />
-                <textarea class="note-input__body" type="text" placeholder="Tuliskan catatanmu di sini ..." required=""></textarea>
-                <button type="submit">Buat</button>
-              </form>
-            </div>
+          <div className="note-app__body">
+            <NoteCreate notes={this.state.notes} addNote={this.onAddContactHandler} />
             <h2>Catatan Aktif</h2>
-            {this.notes.length > 0 ? (
-              <div class="notes-list">
-                {this.notes.map(
+            {this.state.notes.length > 0 ? (
+              <div className="notes-list">
+                {this.state.notes.map(
                   (note) =>
                     !note.archived && (
-                      <div class="note-item">
-                        <div class="note-item__content">
-                          <h3 class="note-item__title">{note.title}</h3>
-                          <p class="note-item__date">{showFormattedDate(note.createdAt)}</p>
-                          <p class="note-item__body">{note.body}</p>
+                      <div className="note-item" key={note.id}>
+                        <div className="note-item__content">
+                          <h3 className="note-item__title">{note.title}</h3>
+                          <p className="note-item__date">{showFormattedDate(note.createdAt)}</p>
+                          <p className="note-item__body">{note.body}</p>
                         </div>
-                        <div class="note-item__action">
-                          <button class="note-item__delete-button">Delete</button>
-                          <button class="note-item__archive-button">Arsipkan</button>
+                        <div className="note-item__action">
+                          <button className="note-item__delete-button">Delete</button>
+                          <button className="note-item__archive-button">Arsipkan</button>
                         </div>
                       </div>
                     )
                 )}
               </div>
             ) : (
-              <p class="notes-list__empty-message">Tidak ada catatan</p>
+              <p className="notes-list__empty-message">Tidak ada catatan</p>
             )}
             <h2>Arsip</h2>
-            {this.notes.length > 0 ? (
-              <div class="notes-list">
-                {this.notes.map(
+            {this.state.notes.length > 0 ? (
+              <div className="notes-list">
+                {this.state.notes.map(
                   (note) =>
                     note.archived && (
-                      <div class="note-item">
-                        <div class="note-item__content">
-                          <h3 class="note-item__title">{note.title}</h3>
-                          <p class="note-item__date">{showFormattedDate(note.createdAt)}</p>
-                          <p class="note-item__body">{note.body}</p>
+                      <div className="note-item" key={note.id}>
+                        <div className="note-item__content">
+                          <h3 className="note-item__title">{note.title}</h3>
+                          <p className="note-item__date">{showFormattedDate(note.createdAt)}</p>
+                          <p className="note-item__body">{note.body}</p>
                         </div>
-                        <div class="note-item__action">
-                          <button class="note-item__delete-button">Delete</button>
-                          <button class="note-item__archive-button">Arsipkan</button>
+                        <div className="note-item__action">
+                          <button className="note-item__delete-button">Delete</button>
+                          <button className="note-item__archive-button">Arsipkan</button>
                         </div>
                       </div>
                     )
                 )}
               </div>
             ) : (
-              <p class="notes-list__empty-message">Tidak ada catatan</p>
+              <p className="notes-list__empty-message">Tidak ada catatan</p>
             )}
           </div>
         </main>

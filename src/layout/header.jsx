@@ -3,14 +3,25 @@ import React from "react";
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      searchQuery: "",
+    };
+
+    this.onSearchChangeEventHandler = this.onSearchChangeEventHandler.bind(this);
+  }
+
+  onSearchChangeEventHandler(event) {
+    this.setState(() => ({
+      searchQuery: event.target.value,
+    }));
   }
   render() {
     return (
       <>
-        <div class="note-app__header">
+        <div className="note-app__header">
           <h1>Notes</h1>
-          <div class="note-search">
-            <input type="text" placeholder="Cari catatan ..." value="" />
+          <div className="note-search">
+            <input type="text" placeholder="Cari catatan ..." value={this.state.searchQuery} onChange={this.onSearchChangeEventHandler} />
           </div>
         </div>
       </>
