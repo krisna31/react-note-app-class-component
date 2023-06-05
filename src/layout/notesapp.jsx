@@ -2,6 +2,7 @@ import React from "react";
 import { getInitialData, showFormattedDate } from "../utils/index";
 import NoteCreate from "./notecreate";
 import Header from "./header";
+import NotesList from "./noteslist";
 
 class NotesApp extends React.Component {
   constructor(props) {
@@ -12,9 +13,25 @@ class NotesApp extends React.Component {
       searchQuery: "",
     };
 
-    this.onAddNotetHandler = this.onAddNotetHandler.bind(this);
+    this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
     this.onSearchEventHandler = this.onSearchEventHandler.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.onToggleArchiveHandler = this.onToggleArchiveHandler.bind(this);
+  }
+
+  onToggleArchiveHandler(id) {
+    this.setState((prevState) => ({
+      notes: prevState.notes.map((note) => {
+        if (note.id === id) {
+          return {
+            ...note,
+            archived: !note.archived,
+          };
+        } else {
+          return note;
+        }
+      }),
+    }));
   }
 
   onSearchEventHandler(event) {
@@ -33,7 +50,7 @@ class NotesApp extends React.Component {
     }));
   }
 
-  onAddNotetHandler({ title, body }) {
+  onAddNoteHandler({ title, body }) {
     this.setState((prevState) => {
       return {
         notes: [
@@ -57,57 +74,11 @@ class NotesApp extends React.Component {
         <Header searchNote={this.onSearchEventHandler} />
         <main>
           <div className="note-app__body">
-            <NoteCreate notes={this.state.notes} addNote={this.onAddNotetHandler} />
+            <NoteCreate notes={this.state.notes} addNote={this.onAddNoteHandler} />
             <h2>Catatan Aktif</h2>
-            {notes.length > 0 ? (
-              <div className="notes-list">
-                {notes.map(
-                  (note) =>
-                    !note.archived && (
-                      <div className="note-item" key={note.id}>
-                        <div className="note-item__content">
-                          <h3 className="note-item__title">{note.title}</h3>
-                          <p className="note-item__date">{showFormattedDate(note.createdAt)}</p>
-                          <p className="note-item__body">{note.body}</p>
-                        </div>
-                        <div className="note-item__action">
-                          <button className="note-item__delete-button" id={note.id} onClick={() => this.onDeleteHandler(note.id)}>
-                            Delete
-                          </button>
-                          <button className="note-item__archive-button">Arsipkan</button>
-                        </div>
-                      </div>
-                    )
-                )}
-              </div>
-            ) : (
-              <p className="notes-list__empty-message">Tidak ada catatan</p>
-            )}
+            <NotesList notes={notes.filter((note) => !note.archived)} archiveText="Arsipkan" onDelete={this.onDeleteHandler} onToggleArchive={this.onToggleArchiveHandler} />
             <h2>Arsip</h2>
-            {notes.length > 0 ? (
-              <div className="notes-list">
-                {notes.map(
-                  (note) =>
-                    note.archived && (
-                      <div className="note-item" key={note.id}>
-                        <div className="note-item__content">
-                          <h3 className="note-item__title">{note.title}</h3>
-                          <p className="note-item__date">{showFormattedDate(note.createdAt)}</p>
-                          <p className="note-item__body">{note.body}</p>
-                        </div>
-                        <div className="note-item__action">
-                          <button className="note-item__delete-button" id={note.id} onClick={() => this.onDeleteHandler(note.id)}>
-                            Delete
-                          </button>
-                          <button className="note-item__archive-button">Arsipkan</button>
-                        </div>
-                      </div>
-                    )
-                )}
-              </div>
-            ) : (
-              <p className="notes-list__empty-message">Tidak ada catatan</p>
-            )}
+            <NotesList notes={notes.filter((note) => note.archived)} archiveText="Pindahkan" onDelete={this.onDeleteHandler} onToggleArchive={this.onToggleArchiveHandler} />
           </div>
         </main>
       </>

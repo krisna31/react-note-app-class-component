@@ -16,9 +16,9 @@ class NoteCreate extends React.Component {
   }
 
   onTitleChangeEventHandler(event) {
-    this.setState(() => ({
+    this.setState((prevState) => ({
       char_limit: 50 - event.target.value.length,
-      title: event.target.value.length <= 50 && event.target.value,
+      title: event.target.value.length < 50 ? event.target.value : prevState.title,
     }));
   }
 
@@ -42,10 +42,8 @@ class NoteCreate extends React.Component {
           <h2>Buat catatan</h2>
           <form onSubmit={this.onSubmitEventHandler}>
             <p className="note-input__title__char-limit">Sisa karakter: {this.state.char_limit}</p>
-            <input className="note-input__title" type="text" placeholder="Ini adalah judul ..." required value={this.props.title} onChange={this.onTitleChangeEventHandler} />
-            <textarea className="note-input__body" type="text" placeholder="Tuliskan catatanmu di sini ..." required onChange={this.onBodyChangeEventHandler}>
-              {this.props.body}
-            </textarea>
+            <input className="note-input__title" type="text" placeholder="Ini adalah judul ..." required value={this.state.title} onChange={this.onTitleChangeEventHandler} />
+            <textarea className="note-input__body" type="text" placeholder="Tuliskan catatanmu di sini ..." required onChange={this.onBodyChangeEventHandler} value={this.state.body}></textarea>
             <button type="submit">Buat</button>
           </form>
         </div>
