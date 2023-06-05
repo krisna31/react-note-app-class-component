@@ -8,10 +8,20 @@ class NotesApp extends React.Component {
     super(props);
     this.state = {
       notes: getInitialData(),
-      searchQuery: "",
     };
 
     this.onAddContactHandler = this.onAddContactHandler.bind(this);
+    this.onSearchEventHandler = this.onSearchEventHandler.bind(this);
+  }
+
+  onSearchEventHandler(event) {
+    const searchQuery = event.target.value;
+    const notes = getInitialData();
+    const filteredNotes = notes.filter((note) => note.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    this.setState(() => ({
+      notes: filteredNotes,
+    }));
   }
 
   onAddContactHandler({ title, body }) {
@@ -34,7 +44,7 @@ class NotesApp extends React.Component {
   render() {
     return (
       <>
-        <Header searchQuery={this.state.searchQuery} />
+        <Header searchNote={this.onSearchEventHandler} />
         <main>
           <div className="note-app__body">
             <NoteCreate notes={this.state.notes} addNote={this.onAddContactHandler} />
