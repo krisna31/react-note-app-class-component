@@ -22,7 +22,7 @@ export default class ArchivedNotes extends Component {
         <section className="homepage">
           <h2>Catatan Aktif</h2>
           <section className="search-bar">
-            <input type="text" placeholder="Cari berdasarkan judul ..." value="" />
+            <input type="text" placeholder="Cari berdasarkan judul ..." value="Not Working Yet" readOnly />
             {this.state.notes.length === 0 ? (
               <section className="notes-list-empty">
                 <p className="notes-list__empty">Tidak ada catatan</p>
