@@ -1,9 +1,12 @@
-import React from 'react';
+import React from "react";
+import MyHeader from "./components/MyHeader";
+import AllNotes from "./components/AllNotes";
 
 function App() {
   return (
     <div className="app-container">
-      <h1>Hello, React</h1>
+      <MyHeader />
+      <AllNotes />
     </div>
   );
 }
