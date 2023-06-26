@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { getAllNotes } from "../utils/local-data";
+import { getArchivedNotes } from "../utils/local-data";
 import Note from "./Note";
 import { Link } from "react-router-dom";
 
-export default class AllNotes extends Component {
+export default class ArchivedNotes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +12,7 @@ export default class AllNotes extends Component {
   }
 
   async componentDidMount() {
-    const notes = getAllNotes();
+    const notes = getArchivedNotes();
     this.setState({ notes });
   }
 
