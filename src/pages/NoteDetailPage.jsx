@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailNotes from "../components/DetailNotes";
-import { archiveNote, deleteNote } from "../utils/local-data";
+import { archiveNote, deleteNote, unarchiveNote } from "../utils/local-data";
 
 export default function NoteDetailPage() {
   const navigate = useNavigate();
@@ -17,5 +17,10 @@ export default function NoteDetailPage() {
     navigate("/");
   }
 
-  return <DetailNotes id={id} deleteNote={onDeleteNoteHandler} archiveNote={onArchiveNoteHandler} />;
+  function onUnarchiveNoteHandler(id) {
+    unarchiveNote(id);
+    navigate("/");
+  }
+
+  return <DetailNotes id={id} deleteNote={onDeleteNoteHandler} archiveNote={onArchiveNoteHandler} unarchiveNote={onUnarchiveNoteHandler} />;
 }

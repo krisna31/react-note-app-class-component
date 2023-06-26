@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAllNotes } from "../utils/local-data";
+import { getActiveNotes, getAllNotes } from "../utils/local-data";
 import Note from "./Note";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ export default class AllNotes extends Component {
   }
 
   async componentDidMount() {
-    const notes = getAllNotes();
+    const notes = getActiveNotes();
     this.setState({ notes });
   }
 

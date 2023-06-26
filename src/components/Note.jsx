@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { showFormattedDate } from "../utils";
+import { Link } from "react-router-dom";
 
 class Note extends Component {
   render() {
@@ -8,7 +9,7 @@ class Note extends Component {
     return (
       <article className="note-item" key={note.id}>
         <h3 className="note-item__title">
-          <a href={`/notes/${note.id}`}>{note.title}</a>
+          <Link to={`/notes/${note.id}`}>{note.title}</Link>
         </h3>
         <p className="note-item__createdAt">{showFormattedDate(note.createdAt)}</p>
         <p className="note-item__body">{note.body}</p>

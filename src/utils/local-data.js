@@ -69,6 +69,7 @@ function addNote({ title, body }) {
 }
 
 function deleteNote(id) {
+  console.log(notes);
   notes = notes.filter((note) => note.id !== id);
 }
 
