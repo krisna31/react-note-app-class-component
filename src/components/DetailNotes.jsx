@@ -73,4 +73,5 @@ DetailNotes.propTypes = {
   id: PropTypes.string.isRequired,
   deleteNote: PropTypes.func.isRequired,
   archiveNote: PropTypes.func.isRequired,
+  unarchiveNote: PropTypes.func.isRequired,
 };

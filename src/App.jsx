@@ -1,10 +1,10 @@
 import React from "react";
 import MyHeader from "./components/MyHeader";
 import AllNotes from "./components/AllNotes";
-import { Route, Routes } from "react-router";
 import ArchivedNotes from "./components/ArchivedNotes";
 import AddNote from "./pages/AddNote";
 import NoteDetailPage from "./pages/NoteDetailPage";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
