@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { getArchivedNotes } from "../utils/local-data";
 import Note from "./Note";
 import { Link } from "react-router-dom";
+import { getArchivedNotes } from "../utils/network-data";
 
 export default class ArchivedNotes extends Component {
   constructor(props) {
@@ -12,8 +12,8 @@ export default class ArchivedNotes extends Component {
   }
 
   async componentDidMount() {
-    const notes = getArchivedNotes();
-    this.setState({ notes });
+    const notes = await getArchivedNotes();
+    !notes.error && this.setState({ notes: notes.data });
   }
 
   render() {

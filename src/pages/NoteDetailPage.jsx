@@ -1,24 +1,24 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailNotes from "../components/DetailNotes";
-import { archiveNote, deleteNote, unarchiveNote } from "../utils/local-data";
+import { archiveNote, deleteNote, unarchiveNote } from "../utils/network-data";
 
 export default function NoteDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  function onDeleteNoteHandler(id) {
-    deleteNote(id);
+  async function onDeleteNoteHandler(id) {
+    await deleteNote(id);
     navigate("/");
   }
 
-  function onArchiveNoteHandler(id) {
-    archiveNote(id);
+  async function onArchiveNoteHandler(id) {
+    await archiveNote(id);
     navigate("/");
   }
 
-  function onUnarchiveNoteHandler(id) {
-    unarchiveNote(id);
+  async function onUnarchiveNoteHandler(id) {
+    await unarchiveNote(id);
     navigate("/");
   }
 

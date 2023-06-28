@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { getActiveNotes } from "../utils/local-data";
 import Note from "./Note";
 import { Link } from "react-router-dom";
+import { getActiveNotes } from "../utils/network-data";
 
 export default class AllNotes extends Component {
   constructor(props) {
@@ -12,8 +12,8 @@ export default class AllNotes extends Component {
   }
 
   async componentDidMount() {
-    const notes = getActiveNotes();
-    this.setState({ notes });
+    const notes = await getActiveNotes();
+    !notes.error && this.setState(() => ({ notes: notes.data }));
   }
 
   render() {
@@ -23,13 +23,13 @@ export default class AllNotes extends Component {
           <h2>Catatan Aktif</h2>
           <section className="search-bar">
             <input type="text" placeholder="Cari berdasarkan judul ..." value="Not Working Yet" readOnly />
-            {this.state.notes.length === 0 ? (
+            {this.state.notes?.length === 0 ? (
               <section className="notes-list-empty">
                 <p className="notes-list__empty">Tidak ada catatan</p>
               </section>
             ) : (
               <section className="notes-list">
-                {this.state.notes.map((note) => (
+                {this.state.notes?.map((note) => (
                   <Note note={note} key={note.id} />
                 ))}
               </section>

@@ -1,20 +1,31 @@
-// import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { ThemeConsumer } from "../context/ThemeContext";
 import { FaMoon, FaSignOutAlt, FaSun } from "react-icons/fa";
 import PropTypes from "prop-types";
-import { getAccessToken } from "../utils/network-data";
+import { getAccessToken, getUserLogged } from "../utils/network-data";
 
 export default class MyHeader extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      user: null,
+    };
 
     this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   logoutHandler() {
     this.props.setAuthedUser(null);
+  }
+
+  async componentDidMount() {
+    const dataUser = await getUserLogged();
+    console.log(dataUser);
+    !dataUser.error &&
+      this.setState(() => ({
+        user: dataUser.data,
+      }));
   }
 
   render() {
@@ -44,6 +55,7 @@ export default class MyHeader extends Component {
         {getAccessToken() && (
           <button className="button-logout" type="button" onClick={this.logoutHandler}>
             <FaSignOutAlt />
+            {this.state.user?.name}
           </button>
         )}
       </header>
