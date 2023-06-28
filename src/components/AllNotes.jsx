@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getActiveNotes, getAllNotes } from "../utils/local-data";
+import { getActiveNotes } from "../utils/local-data";
 import Note from "./Note";
 import { Link } from "react-router-dom";
 
